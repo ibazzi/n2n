@@ -37,7 +37,7 @@ endif(NOT DEFINED CMAKE_BUILD_TYPE)
 
 # None
 if(NOT WIN32)
-set(CMAKE_C_FLAGS "-Wall -Wshadow -Wpointer-arith -Wmissing-declarations -Wnested-externs -fPIC")
+set(CMAKE_C_FLAGS "-Wall -Wshadow -Wpointer-arith -Wmissing-declarations -Wnested-externs -fPIC $ENV{BUILDFLAGS}")
 set(CMAKE_CXX_FLAGS "-Wall -Wshadow -Wpointer-arith -Wmissing-declarations -Wnested-externs")
 # Debug 
 set(CMAKE_C_FLAGS_DEBUG "-g")
