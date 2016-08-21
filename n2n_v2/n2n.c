@@ -23,7 +23,9 @@
 
 #include "n2n.h"
 
+#if defined(N2N_HAVE_COMPRESSION)
 #include "minilzo.h"
+#endif
 
 #include <assert.h>
 

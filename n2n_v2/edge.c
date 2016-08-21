@@ -27,7 +27,10 @@
 #include "n2n_transforms.h"
 #include <assert.h>
 #include <sys/stat.h>
+
+#if defined(N2N_HAVE_COMPRESSION)
 #include "minilzo.h"
+#endif
 
 #if defined(DEBUG)
 #define SOCKET_TIMEOUT_INTERVAL_SECS    5
@@ -327,11 +330,13 @@ static int edge_init(n2n_edge_t * eee)
 	eee->rx_bit_p2p = 0;
 	eee->rx_bit_sup = 0;
 
+#if defined(N2N_HAVE_COMPRESSION)
     if(lzo_init() != LZO_E_OK)
     {
         traceEvent(TRACE_ERROR, "LZO compression error");
         return(-1);
     }
+#endif
 
     return(0);
 }

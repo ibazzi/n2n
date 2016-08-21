@@ -6,6 +6,10 @@ set(N2N_VERSION 2.1.0)
 set(N2N_OSNAME ${CMAKE_SYSTEM})
 
 # N2n specific params
+if(NOT DEFINED N2N_OPTION_COMPRESSION)
+set(N2N_OPTION_COMPRESSION ON)
+endif(NOT DEFINED N2N_OPTION_COMPRESSION)
+
 if(NOT DEFINED N2N_OPTION_AES)
 if(NOT WIN32)
 set(N2N_OPTION_AES ON)
@@ -15,6 +19,10 @@ endif(NOT WIN32)
 endif(NOT DEFINED N2N_OPTION_AES)
 
 add_definitions(-DN2N_VERSION=\"${N2N_VERSION}\" -DN2N_OSNAME=\"${N2N_OSNAME}\")
+
+if(N2N_OPTION_COMPRESSION)
+add_definitions(-DN2N_HAVE_COMPRESSION)
+endif(N2N_OPTION_COMPRESSION)
 
 if(N2N_OPTION_AES)
 add_definitions(-DN2N_HAVE_AES)
@@ -57,7 +65,6 @@ endif(NOT WIN32)
 add_library(n2n n2n.c
                 n2n_keyfile.c
                 wire.c
-                minilzo.c
                 twofish.c
                 transform_null.c
                 transform_tf.c
@@ -68,6 +75,10 @@ add_library(n2n n2n.c
                 tuntap_osx.c
                 version.c
             )
+
+if(N2N_OPTION_COMPRESSION)
+add_library(minilzo.c)
+endif(NOT DEFINED N2N_OPTION_COMPRESSION)
 
 if(DEFINED WIN32)
 add_subdirectory(win32)
