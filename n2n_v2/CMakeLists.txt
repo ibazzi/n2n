@@ -78,7 +78,7 @@ add_library(n2n n2n.c
 
 if(N2N_OPTION_COMPRESSION)
 add_library(minilzo.c)
-endif(NOT DEFINED N2N_OPTION_COMPRESSION)
+endif(N2N_OPTION_COMPRESSION)
 
 if(DEFINED WIN32)
 add_subdirectory(win32)
