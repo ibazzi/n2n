@@ -28,6 +28,7 @@
 #endif
 
 #include <assert.h>
+#include <libgen.h>
 
 /* sglib hash table implementation */
 
@@ -133,7 +134,7 @@ void traceEvent(int eventTraceLevel, char* file, int line, char * format, ...) {
       extra_msg = "WARNING: ";
 
     while(buf[strlen(buf)-1] == '\n') buf[strlen(buf)-1] = '\0';
-
+    file = basename(file);
 #ifndef WIN32
     if(useSyslog) {
       if(!syslog_opened) {
@@ -144,14 +145,13 @@ void traceEvent(int eventTraceLevel, char* file, int line, char * format, ...) {
       snprintf(out_buf, sizeof(out_buf), "%s%s", extra_msg, buf);
       syslog(LOG_INFO, "%s", out_buf);
     } else {
-      snprintf(out_buf, sizeof(out_buf), "%s [%11s:%4d] %s%s", theDate, file, line, extra_msg, buf);
+      snprintf(out_buf, sizeof(out_buf), "%s [%4s:%4d] %s%s", theDate, file, line, extra_msg, buf);
       printf("%s\n", out_buf);
       fflush(stdout);
     }
 #else
     /* this is the WIN32 code */
-	for(i=strlen(file)-1; i>0; i--) if(file[i] == '\\') { i++; break; };
-    snprintf(out_buf, sizeof(out_buf), "%s [%11s:%4d] %s%s", theDate, &file[i], line, extra_msg, buf);
+    snprintf(out_buf, sizeof(out_buf), "%s [%4s:%4d] %s%s", theDate, file, line, extra_msg, buf);
     printf("%s\n", out_buf);
     fflush(stdout);
 #endif
